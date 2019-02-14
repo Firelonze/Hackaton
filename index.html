@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css"/>
+    <title>Klimaat verandering quiz</title>
+  </head>
+  <body>
+    <h1>Quiz over Klimaat verandering</h1>
+    <div class="quiz-container">
+      <div id="quiz"></div>
+    </div>
+    <button id="submit">Submit Quiz</button>
+    <div id="results"></div>
+  </body>
+  <script>
+  (function() {
+    const myQuestions = [
+      {
+        question: "Het resultaat van het broeikasteffect is?",
+      		answers: {
+      			a: 'Het word warmer en droger',
+      			b: 'Het word kouder en natter',
+      			c: 'Beide zijn goed'
+      		},
+      		correctAnswer: 'c'
+      	},
+        {
+      		question: "Wat zijn de bekenste broeikast gassen?",
+      		answers: {
+      			a: 'Koolstofdioxide, methaan en lachgas',
+      			b: 'Koolstofmonoxide en traangas',
+      			c: 'fluorverbindingen gehalogeneerde waterstoffen, methaan en traangas'
+      		},
+      		correctAnswer: 'a'
+      	},
+        {
+      		question: "Hoeveel Co2 stootte nederland uit in 2018?",
+      		answers: {
+      			a: '41,5 miljard ton',
+      			b: '37,1 miljard ton',
+      			c: '53,9 miljard ton'
+      		},
+      		correctAnswer: 'a'
+      	},
+      	{
+      		question: "Waarom word de aarde warmer?",
+      		answers: {
+      			a: 'Omdat iemand zijn/haar oven de zee in heeft gegooid',
+      			b: 'Omdat de zon de aarde verwarmt',
+      			c: 'Omdat de kern groter word',
+            d: 'Boeit mij niet'
+      		},
+      		correctAnswer: 'b'
+        },
+        {
+          question: "Wat is het na deel van het ijs dat smelt?",
+          answers: {
+            a: 'we kunnen minder ijsblokjes maken',
+            b: 'er komt donker water dat warmte vasthoud'
+          },
+          correctAnswer: 'b'
+        },
+      {
+        question: "Waarom verzuren de oceanen?",
+        answers: {
+          a:'Omdat er zuur word in gegooid door onbekende vliegende objecten',
+          b:'Omdat het zuur bij de plastic zit dat in de oceanen beland',
+          c:'Omdat wetenschappers die een nieuw soort zuur uit proberen te vinden het dumpen in de oceanen',
+          d:'Omdat de Co2 die wij uitstoten word opgenomen door de oceanen'
+        },
+        correctAnswer: 'd'
+      },
+      {
+        question: "Waar staat IPCC voor?",
+        answers:{
+          a:'Imigrated Powerful People and Control',
+          b:'Population and Control',
+          c:'Integrated Pollution Prevention and Control',
+          d:'Integer Paragraph Package and Character'
+        },
+        correctAnswer: 'c'
+      },
+      {
+        question: "Wat is de grootste bron van Co2 uit stoot?",
+        answers:{
+          a:'Mensen die het ademen',
+          b:'Het verbranden van aardgas en fosielestoffen',
+          c:'Het vervoer',
+          d:'Fabrieken'
+        },
+        correctAnswer: 'b'
+      },
+      {
+        question: "Welk voedsel is het slechtste voor het klimaat?",
+        answers:{
+          a:'Komkomer',
+          b:'Appel',
+          c:'Rundvlees',
+          d:'Wortel',
+          e:'Kaas'
+        },
+        correctAnswer: 'c'
+      },
+      {
+        question: "Hoeveel kg gooit een nederlandse persoon ongeveer per jaar weg?",
+        answers:{
+          a:'57 kg',
+          b:'63 kg',
+          c:'45 kg',
+          d:'39 kg',
+          e:'21 kg',
+          f:'47 kg'
+        },
+        correctAnswer: 'f'
+      }
+      ];
+        function buildQuiz() {
+          const output = [];
+          myQuestions.forEach((currentQuestion, questionNumber) => {
+            const answers = [];
+            for (letter in currentQuestion.answers) {
+              answers.push(
+                `<label>
+                   <input type="radio" name="question${questionNumber}" value="${letter}">
+                    ${letter} :
+                    ${currentQuestion.answers[letter]}
+                 </label>`
+              );
+            }
+            output.push(
+              `<div class="slide">
+                 <div class="question"> ${currentQuestion.question} </div>
+                 <div class="answers"> ${answers.join("")} </div>
+               </div>`
+            );
+          });
+          quizContainer.innerHTML = output.join("");
+        }
+        function showResults() {
+          const answerContainers = quizContainer.querySelectorAll(".answers");
+          let numCorrect = 0;
+          myQuestions.forEach((currentQuestion, questionNumber) => {
+            const answerContainer = answerContainers[questionNumber];
+            const selector = `input[name=question${questionNumber}]:checked`;
+            const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+            if (userAnswer === currentQuestion.correctAnswer) {
+              numCorrect++;
+              answerContainers[questionNumber].style.color = "lightgreen";
+            } else {
+              answerContainers[questionNumber].style.color = "red";
+            }
+            if (numCorrect == 10) {window.alert("Jij hebt de quiz foutloos voltooid goed gedaan, jij bent nu de Quiz Ninja.");}
+            if (numCorrect == 0) {window.alert("Jij hebt niks goed... Ga wat leren over klimaatverandering!")
+            }
+          });
+          resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+        }
+        const quizContainer = document.getElementById("quiz");
+        const resultsContainer = document.getElementById("results");
+        const submitButton = document.getElementById("submit");
+        buildQuiz();
+        const previousButton = document.getElementById("previous");
+        const nextButton = document.getElementById("next");
+        const slides = document.querySelectorAll(".slide");
+        submitButton.addEventListener("click", showResults);
+        previousButton.addEventListener("click", showPreviousSlide);
+        nextButton.addEventListener("click", showNextSlide);
+      })();
+</script>
+</html>
